@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Login Page </title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 10rem;
+  justify-content: center;
+  min-height: 100vh;
+  	margin: 0;
+	padding: 0;
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
+	--sz: 5px; /*** size ***/
+	--sp: 10s; /*** speed ***/
+	--b1: #3c3532;
+	--b2: #1c1b18;
+	--b3: #0c0b0a;
+	--b4: #0c0b0ae0;
+	--c1: #e399ff;
+	--ts: 50%/calc(var(--sz) * 17.5) calc(var(--sz) * 29.5);
+}
+.back{
+	height: 100vh;
+	background:
+		/* black shadows */
+		radial-gradient(circle at 50% 50%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+		radial-gradient(circle at 0% 0%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+		radial-gradient(circle at 0% 100%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+		radial-gradient(circle at 100% 0%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+		radial-gradient(circle at 100% 100%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+		/* border bottom */
+		conic-gradient(from 90deg at 97.5% 67%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts), /*repeated*/
+		conic-gradient(from 90deg at 97.5% 67%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+		conic-gradient(from 182.5deg at 2.5% 67%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from 182.5deg at 2.5% 67%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+		/* border top */
+		conic-gradient(from 270deg at 2.5% 33%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts), /*repeated*/
+		conic-gradient(from 270deg at 2.5% 33%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+		conic-gradient(from 2.5deg at 97.5% 33%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from 2.5deg at 97.5% 33%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+		/* bottom */
+		conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+		conic-gradient(from 120deg at 50% 83%, var(--c1) 0 120deg, #fff0 0 100%) var(--ts),
+		/* top */
+		conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts), /*repeated*/
+		conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+		conic-gradient(from -60deg at 50% 17%, var(--c1) 0 120deg, #fff0 0 100%) var(--ts),
+		/* central gradient */
+		conic-gradient(
+			from 0deg at 50% 50%, #fff0 0 2deg,
+			var(--b2) 2.5deg 57.5deg,
+			#fff0 58deg 62.5deg,
+			var(--b1) 63deg 117.5deg,
+			#fff0 118deg 122.5deg,
+			var(--b3) 123deg 177.5deg,
+			#fff0 178deg 182deg,
+			var(--b2) 182.5deg 237.5deg,
+			#fff0 0 242.5deg,
+			var(--b1) 243deg 297.5deg,
+			#fff0 298deg 302.5deg,
+			var(--b3) 303deg 357.5deg,
+			#fff0 358deg 360deg
+		) var(--ts),
+		/* bg */
+		var(--c1);
+	    animation: colors var(--sp) linear 0s infinite;
+	    filter: hue-rotate(0deg);
+}
+@keyframes colors {
+	100% { filter: hue-rotate(360deg);
+	}
+}
+.container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    gap: 3rem;
+    padding-top: 20px;
+}
+.header h1 {
+  text-align: center;
+  padding-top: 200px;
+  font-size: 44px;
+  font-weight: 700; color:white;
+  text-transform: uppercase;
+  word-spacing: 1px; letter-spacing:2px;
+}
+.header h1 span {
+  margin-top: 40px;
+  text-transform: none;
+  font-size:.75em;
+  font-weight: 700;
+  font-style: bold;
+  color:white; letter-spacing:-0.005em; word-spacing:1px;
+  letter-spacing:none;
+}
+.header h1:before {
+  position: absolute;
+  left: 0;
+  bottom: 38px;
+  width: 60px;
+  height: 4px;
+  content: "";
+  left: 50%;
+  margin-left: -30px;
+  background-color: #dfdfdf;
+}
+button {
+  position: relative;
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+}
+
+button:hover {
+  letter-spacing: 0.2rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--clr);
+  color: var(--clr);
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #272822;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+.fileListContainer {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            overflow: visible;
+}
+
+
+</style>
+</head>
+<body>
+<div class="back">
+<div class = "header">
+    <h1> EXAM NOTE <br>
+        <span> LOGIN / REGISTER</span>
+    </h1>
+</div>
+
+    <form>
+        <div class="container">
+            <a th:href="@{/loginpage}">
+                <button type="button" style="--clr:#FF44CC">
+                    <span> LOGIN </span><i></i>
+                </button>
+            </a>
+            <a th:href="@{/registerationpage}">
+                <button type="button" style="--clr:#8A2BE2">
+                    <span> REGISTER </span><i></i>
+                </button>
+            </a>
+        </div>
+    </form>
+<div class="fileListContainer" id="fileListContainer">
+</div>
+</div>
+<!-- Add a container for listing files -->
+    <script>
+       // Function to list files in the /tmp directory
+    function listFiles() {
+        // Send an AJAX request to list files
+        $.ajax({
+            type: "GET",
+            url: "/listFiles", // URL to your endpoint to list files
+            success: function (response) {
+                console.log(response);
+                var fileListContainer = document.getElementById('fileListContainer');
+                fileListContainer.innerHTML = ''; // Clear any existing file buttons
+
+                // Loop through the file names and create a button for each
+                for (let i = 0; i < response.length; i++) {
+                    let fileName = response[i];
+                    let username = fileName.replace("Login.txt", ""); // Extract username from the file name
+                    console.log("Inside if : "+username);
+                    let continueButton = document.createElement('button');
+                    continueButton.type = 'button';
+                    continueButton.style = '--clr:#FF44CC';
+                    let spanElement = document.createElement('span');
+                    // Set the text content of the span
+                    spanElement.textContent = 'Continue as ' + username;
+                    continueButton.appendChild(spanElement);
+                    if (i < response.length - 1) {
+                        continueButton.style.marginRight = '10px'; // Adjust the amount of margin as needed
+                    }
+                    console.log("Just before clickbutton :"+username);
+                    continueButton.addEventListener('click', function () {
+                        console.log("Inside verify : "+username);
+                        verifyLogin(username);
+                    });
+                    fileListContainer.appendChild(continueButton);
+                }
+            },
+            error: function (error) {
+                console.error("Error listing files:", error);
+            }
+        });
+    }
+    function verifyLogin(username){
+    $.ajax({
+                        type: "GET",
+                        url: "/getUserInfo?username=" + username, // Replace with your endpoint
+                        success: function (userInfo) {
+                            // Generate and send OTP via email and SMS
+                            var otp = generateOTP(); // Implement your OTP generation logic
+                            console.log(otp);
+                            console.log(userInfo.emailID);
+                            console.log(userInfo.contact_num);
+                            sendOTPByEmail(userInfo.emailID, otp); // Implement your email OTP sending logic
+                            sendOTPBySMS(userInfo.contact_num, otp); // Implement your SMS OTP sending logic
+
+                            // Prompt the user to enter the OTP
+                            var enteredOTP = prompt("Enter the OTP sent to your email and phone:");
+
+                            // Verify the entered OTP
+                            if (enteredOTP === otp) {
+                                sessionStorage.setItem("username", username); // Redirect to the landing page
+                                location.assign("/landingpage");
+                            } else {
+                                alert("Invalid OTP. Please try again.");
+                            }
+                        },
+                        error: function () {
+                            alert("Failed to retrieve user information.");
+                        }
+                        });
+    }
+    // Call the function to list files when the page loads
+    $(document).ready(function () {
+        listFiles();
+    });
+		function loginbtn() {
+		  location.assign("http://localhost:8082/loginpage");
+		}
+		function regiterbtn() {
+		  location.assign("http://localhost:8082/registerationpage");
+		}
+		function generateOTP() {
+            // Implement your OTP generation logic (e.g., a random number)
+            return Math.floor(1000 + Math.random() * 9000).toString();
+        }
+            function sendOTPByEmail(email, otp) {
+        fetch('/sendOTPByEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email, otp: otp })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error sending OTP by email');
+            }
+            console.log('Email OTP sent successfully.');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function sendOTPBySMS(phoneNumber, otp) {
+        fetch('/sendOTPBySMS', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ phoneNumber: phoneNumber, otp: otp })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error sending OTP by SMS');
+            }
+            console.log('SMS OTP sent successfully.');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+</script>
+</body>
+</html>

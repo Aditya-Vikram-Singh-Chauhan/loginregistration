@@ -1,0 +1,276 @@
+<!DOCTYPE html>   
+<html lang="en" xmlns:th="http://www.thymeleaf.org">   
+<head>  
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<title> Registeration Page </title>
+<style>   
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Place it behind other elements */
+  --sz: 5px;
+  --sp: 10s;
+  --b1: #3c3532;
+  --b2: #1c1b18;
+  --b3: #0c0b0a;
+  --b4: #0c0b0ae0;
+  --c1: #e399ff;
+  --ts: 50%/calc(var(--sz) * 17.5) calc(var(--sz) * 29.5);
+  background:
+    radial-gradient(circle at 50% 50%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+    radial-gradient(circle at 0% 0%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+    radial-gradient(circle at 0% 100%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+    radial-gradient(circle at 100% 0%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+    radial-gradient(circle at 100% 100%, var(--b4) calc(var(--sz) * 1), #fff0 calc(var(--sz) * 8)) var(--ts),
+    conic-gradient(from 90deg at 97.5% 67%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+    conic-gradient(from 90deg at 97.5% 67%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+    conic-gradient(from 182.5deg at 2.5% 67%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 182.5deg at 2.5% 67%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 270deg at 2.5% 33%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+    conic-gradient(from 270deg at 2.5% 33%, var(--c1) 0 87.5deg, #fff0 88deg 100%) var(--ts),
+    conic-gradient(from 2.5deg at 97.5% 33%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 2.5deg at 97.5% 33%, #fff0 0 0deg, var(--c1) 0.5deg 90deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 116.5deg at 50% 85.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from 120deg at 50% 83%, var(--c1) 0 120deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from -63.5deg at 50% 14.5%, var(--b1) 0 127deg, #fff0 0 100%) var(--ts),
+    conic-gradient(from -60deg at 50% 17%, var(--c1) 0 120deg, #fff0 0 100%) var(--ts),
+    conic-gradient(
+      from 0deg at 50% 50%, #fff0 0 2deg,
+      var(--b2) 2.5deg 57.5deg,
+      #fff0 58deg 62.5deg,
+      var(--b1) 63deg 117.5deg,
+      #fff0 118deg 122.5deg,
+      var(--b3) 123deg 177.5deg,
+      #fff0 178deg 182deg,
+      var(--b2) 182.5deg 237.5deg,
+      #fff0 0 242.5deg,
+      var(--b1) 243deg 297.5deg,
+      #fff0 298deg 302.5deg,
+      var(--b3) 303deg 357.5deg,
+      #fff0 358deg 360deg
+    ) var(--ts),
+    var(--c1);
+  animation: colors var(--sp) linear 0s infinite;
+}
+
+@keyframes colors {
+  100% { filter: hue-rotate(360deg); }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+h1 {
+  text-align: center;
+  font-size: 44px;
+  font-weight: 700; color:white;
+  text-transform: uppercase;
+  word-spacing: 1px; letter-spacing:2px;
+
+}
+button {
+  position: relative;
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  border: none;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 1rem 3rem;
+  transition: 0.2s;
+  filter: hue-rotate(0deg);
+}
+
+button:hover {
+  letter-spacing: 0.2rem;
+  padding: 1.1rem 3.1rem;
+  background: var(--clr);
+  color: var(--clr);
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: #272822;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: #272822;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  0% {
+    box-shadow: #27272c;
+  }
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+  100% {
+    box-shadow: #27272c;
+  }
+}
+ input[type=text], input[type=password] {   
+        width: 100%;   
+        margin: 8px 0;  
+        padding: 12px 20px;   
+        display: inline-block;   
+        border: 2px solid green;   
+        box-sizing: border-box;
+        background: transparent;
+    }
+    input[type="text"]::placeholder,
+    input[type="password"]::placeholder {
+        font-weight: 700; color:white; /* Replace 'your-color-here' with the desired color value */
+}
+ button:hover {   
+        opacity: 0.7;   
+    }   
+  .cancelbtn {   
+        width: auto;   
+        padding: 10px 18px;  
+        margin: 10px 5px;  
+    }   
+        
+     
+ .container {   
+        padding: 25px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+    }   
+</style>   
+</head>    
+<body>
+<div class="background-container"></div>
+    <center> <h1> ExamNotes Registeration </h1> </center>
+    <form id="myForm" action="/registerNewUser" method="post">  
+        <div class="container">
+        	<label></label>
+            <input type="text" placeholder="Enter Contact Number" name="contact_num" required>
+            <label></label>
+            <input type="text" placeholder="Enter Email Id" name="emailID" required>
+        	<label></label>
+            <input type="text" placeholder="Enter Name" name="name" required>
+        	<label></label>
+            <input type="text" placeholder="Enter Username" name="username" required>  
+            <label></label>
+            <input type="password" placeholder="Enter Password" name="password" required>  
+            <button type="submit" style="--clr:#8A2BE2" onclick="userReg()">
+                <span> REGISTER </span><i></i>
+            </button>
+        </div>   
+    </form>
+    <script>
+	    function sleep(ms) {
+	        return new Promise(resolve => setTimeout(resolve, ms));
+	    }
+    	function userReg(){
+    		const thisForm = document.getElementById('myForm');
+        	thisForm.addEventListener('submit', async function (e) {
+        		e.preventDefault();
+        		let response = await fetch('http://localhost:8082/registerNewUser', {
+    		  	method: 'POST',
+    		  	body: new FormData(thisForm)
+    		  	});
+    		  	
+    		  	let result = await response.text();
+    		  	if(result == 'User Successfully Added!'){
+    		  		alert(result);
+            		console.log(result);
+            		await sleep(3000);
+            		location.assign("http://localhost:8082/loginpage");
+    		  	}
+    		  	else{
+    		  		alert('User Already Present!')
+    		  		console.log('User Already Present')
+    		  	}
+    		  		
+    		});
+    		
+    	}
+    	
+	</script>    
+</body>     
+</html>
