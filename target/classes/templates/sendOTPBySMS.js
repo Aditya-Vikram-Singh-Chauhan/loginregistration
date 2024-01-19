@@ -1,7 +1,5 @@
 // Your code for sending OTP by SMS here
         const twilio = require('twilio');
-        const accountSid = 'AC4149431586cfe8e19ebd313b08e69959';
-        const authToken = '48a150460cfe724507b07c439dbd9f79';
         const client = twilio(accountSid, authToken);
         function sendOTPBySMS(phoneNumber, otp) {
         client.messages
